@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>The Contract Generator</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+
+    <style>
+        .tpt_dark_button {
+            color: white;
+            border-color: black;
+            background-color: #002a5c;
+        }
+
+        .tpt_dark_TabBar {
+            background-color: #002a5c;
+        }
+
+        .tpt_light_background {
+            background-color: #5987c5;
+        }
+
+        .white-circle-container {
+            background-color: white;
+            border-radius: 25px;
+            border-style: solid;
+        }
+
+        .basic-padding {
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-bottom: 15px
+        }
+
+        .blue-text {
+            color: #5987c5;
+        }
+
+        .extrapadding {
+            padding-top: 25px;
+        }
+
+        input:invalid {
+            border-color: red;
+            border-width: 2px;
+        }
+
+        input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 1000px white inset;
+        }
+
+    </style>
+
+    <script>var Test = true;</script>
+
+</head>
+
+<body style="background-color: #5987c5">
+<nav class="navbar" role="navigation" aria-label extrapadding="main navigation"
+     style=" padding: 5px; border-style: solid">
+    <div class="navbar-brand">
+        <div class="card-content" style="justify-content: center">
+            <img src="/TPT.png" style="width: 100px; height: 50px">
+        </div>
+        <div>
+            <h1 class="title" style="padding-top: 18px">Lepingu genereerija</h1>
+            <p class="subtitle">Praktikalepingu genereerimise tarkvara</p>
+        </div>
+    </div>
+    <div class="navbar-end">
+        <div style="text-align: center; padding-top: 25px; padding-right: 10px">
+            <label class="title" style="font-size: 20px; font-style: italic">Matthias Linder TA-17E</label><br>
+            <label class="title" style="font-size: 15px">Lõputöö</label><br>
+            <button id="TestDataButton" class="button is-hidden" onclick="GenerateTestData()">Test Data</button>
+        </div>
+    </div>
+</nav>
+
+<!-- -->
+
+<section class="section" style="width: 100%; background-color: #5987c5">
+    <div class="container" style="padding: 10px">
+
+        <div class="columns">
+
+            <!-- THE USER INPUTS COLUMN -->
+            <div class="column is-half">
+
+                <!-- Tab Bar -->
+                <div id="TabBar" class="tabs is-centered is-boxed is-toggle-rounded is-fullwidth tpt_dark_TabBar" style="font-size: 20px">
+                    <li id="StudentTab" class="is-active" style="padding: 5px">
+                        <a onclick="SwitchToStudent()">
+                            <span class="blue-text">Õpilane</span>
+                        </a>
+                    </li>
+
+                    <li id="ContractTab" style="padding: 5px">
+                        <a onclick="SwitchToContract()">
+                            <span class="blue-text">Leping</span>
+                        </a>
+
+                    </li>
+
+                    <li id="CompanyTab" style="padding: 5px">
+                        <a onclick="SwitchToCompany()">
+                            <span class="blue-text">Ettevõte</span>
+                        </a>
+                    </li>
+
+                    <li id="SchoolTab" style="padding: 5px">
+                        <a onclick="SwitchToSchool()">
+                            <span class="blue-text">Kool</span>
+                        </a>
+                    </li>
+                </div>
+
+                <form id="ContractForm" action="/SubmitData" method="post" onsubmit="ValidInputs()" autocomplete="off">
+
+                    <fieldset>
+
+                        <!-- STUDENT TAB -->
+                        <div id="StudentTab_Content">
+                            <div class="basic-padding white-circle-container">
+                                <label class="label extrapadding">Ees- ja perekonnanimi</label>
+                                <input name="student_name" class="input" type="text" placeholder="John Doe" id="S_Name" required>
+
+                                <label class="label extrapadding">Telefoninumber</label>
+                                <input name="student_phone_number" class="input" type="text" placeholder="693 5555" id="S_Phone" required>
+
+
+                                <label class="label extrapadding">Õppegrupp</label>
+                                <input name="student_group" class="input" type="text" placeholder="TA-17E" id="S_Group" required>
+
+
+                                <label class="label extrapadding">Eriala</label>
+                                <input name="student_course" class="input" type="text" placeholder="Noorem tarkvaraarendaja" id="S_Course" required>
+
+                                <table>
+                                    <tr>
+                                        <td><label class="label extrapadding">Aadress</label></td>
+                                        <td><label class="label extrapadding">Postiindeks</label></td>
+                                        <td><label class="label extrapadding">Linn</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input name="student_address" class="input" type="text" placeholder="Rahukohtu 3" id="S_Address" required>
+                                        </td>
+                                        <td>
+                                            <input name="student_zipcode" class="input" type="text" placeholder="15161" id="S_Zip" required>
+                                        </td>
+                                        <td>
+                                            <input name="student_city" class="input" type="text" placeholder="Tallinn" id="S_City" required>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- CONTRACT TAB -->
+                        <div class="is-hidden" id="ContractTab_Content">
+                            <div class="basic-padding white-circle-container">
+                                <label class="label extrapadding">Lepingu number</label>
+                                <input name="contract_number" class="input" type="text" placeholder="18" id="C_Number" required>
+
+                                <table>
+                                    <tr>
+                                        <td><label class="label extrapadding">Praktika algus</label></td>
+                                        <td><label class="label extrapadding">Praktika lõpp</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input name="practice_date_start" class="input" type="date" placeholder="05/12/2001" id="C_StartD" required></td>
+                                        <td><input name="practice_date_end" class="input" type="date" placeholder="09/11/2001" id="C_EndD" required></td>
+                                    </tr>
+
+                                </table>
+
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label class="label extrapadding">Lepingu kestus nädalates</label>
+                                            <input name="duration_weeks" class="input" type="text" placeholder="24,7" id="C_DurationWeeks" required>
+                                        </td>
+                                        <td>
+                                            <label class="label" style="padding-top: 65px; padding-left: 15px; font-style: italic"> Nädalat</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="label extrapadding">Lepingu kestus tundides</label>
+                                            <input name="duration_hours" class="input" type="text" placeholder="998" id="C_DurationHours" required>
+                                        </td>
+                                        <td>
+                                            <label class="label" style="padding-top: 65px; padding-left: 15px; font-style: italic"> Tundi</label>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+
+
+                            </div>
+                        </div>
+
+                        <!-- COMPANY TAB -->
+                        <div class="is-hidden" id="CompanyTab_Content">
+                            <div class="white-circle-container">
+                                <div class="basic-padding">
+                                    <label class="label extrapadding">Nimi</label>
+                                    <input name="company_name" class="input" type="text" placeholder="Telia AS" id="Co_Name" required>
+
+                                    <table>
+                                        <tr>
+                                            <td><label class="label extrapadding">Aadress</label></td>
+                                            <td><label class="label extrapadding">Postiindeks</label></td>
+                                            <td><label class="label extrapadding">Linn</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input name="company_address" class="input" type="text" placeholder="Aadress" id="Co_Address" required>
+                                            </td>
+                                            <td>
+                                                <input name="company_zipcode" class="input" type="text" placeholder="Zip Kood" id="Co_Zip" required>
+                                            </td>
+                                            <td>
+                                                <input name="company_city" class="input" type="text" placeholder="Linn" id="Co_City" required>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <label class="label extrapadding">Registrikood</label>
+                                    <input name="company_reg_code" class="input" type="text" placeholder="10234957" id="Co_RegCode" required>
+
+                                    <label class="label extrapadding">Telefoninumber</label>
+                                    <input name="company_phone_number" class="input" type="text" placeholder="655 9188" id="Co_Phone" required>
+
+                                    <br><br><br><label class="label extrapadding">Esindaja ees- ja perekonnanimi</label>
+                                    <input name="company_rep_name" class="input" type="text" placeholder="Jane Doe" id="Co_RepName" required>
+
+                                    <label class="label extrapadding">Esindaja amet</label>
+                                    <input name="company_rep_position" class="input" type="text" placeholder="Sekretär" id="Co_RepPos" required>
+
+                                </div>
+                            </div>
+
+                            <label class="label extrapadding" style="padding: 10px; text-underline: auto; font-size: 25px">
+                                <input name="CompanyContactDataSwitch" id="edit_company_contact_checkbox" class="checkbox" type="checkbox" onchange="EditCompanyRep()">
+                                Märgi linnuke, kui lepingu allkirjastaja ei ole õpilase juhendaja.
+                            </label>
+
+                            <div id="CompanyContactFields" class="white-circle-container is-hidden">
+                                <div style="padding: 20px">
+                                    <label class="label" style="font-size: 20px; padding: 10px">Õpilase Juhendaja</label>
+
+                                    <label class="label">Ees- ja perekonnanimi</label>
+                                    <input name="company_contact_name" class="input" type="text" placeholder="Nimi" id="Co_ConName">
+
+                                    <label class="label extrapadding">Amet</label>
+                                    <input name="company_contact_position" class="input" type="text" placeholder="Amet" id="Co_ConPos">
+
+                                    <label class="label extrapadding">Telefoninumber</label>
+                                    <input name="company_contact_phone" class="input" type="text" placeholder="659 7905"  id="Co_ConPhone">
+
+                                    <label class="label extrapadding">E-posti aadress</label>
+                                    <input name="company_contact_email" class="input" type="text" placeholder="Email" id="Co_ConEmail">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- SCHOOL TAB -->
+                        <div class="is-hidden" id="SchoolTab_Content">
+
+                            <div id="SchoolContactFields" style="border-radius: 25px; border-style: solid; background-color: white">
+                                <label class="label" style="font-size: 20px; padding: 10px">Koolipoolne praktika korraldaja</label>
+                                <div style="padding: 10px">
+                                    <label class="label">Ees- ja perekonnanimi</label>
+                                    <input name="school_contact_name" class="input" type="text" placeholder="Taigo Hemmel" id="Sc_RepName" required>
+
+                                    <label class="label extrapadding">Amet</label>
+                                    <input name="school_contact_position" class="input" type="text" placeholder="Õpetaja" id="Sc_RepPos" required>
+
+                                    <label class="label extrapadding">Telefoninumber</label>
+                                    <input name="school_contact_phone" class="input" type="text" placeholder="659 7905" id="Sc_RepPhone" required>
+
+                                    <label class="label extrapadding">E-posti aadress (võib tühjaks jätta)</label>
+                                    <input name="school_contact_email" class="input" type="text" placeholder="JohnDoe@gmail.com">
+                                </div>
+                            </div>
+                            <br>
+
+                            <label class="label extrapadding" style="padding: 10px; text-underline: auto; font-size: 25px">
+                                <input name="SchoolDataSwitch" id="edit_school_data_checkbox" class="checkbox"
+                                       type="checkbox" onchange="EditSchoolData()">
+                                Märgi linnuke, kui soovid kooli andmeid muuta.
+                            </label>
+
+                            <div id="View_School_Data" class="white-circle-container">
+                                <div class="basic-padding">
+                                    <label class="label extrapadding">Kooli nimi</label>
+                                    <p>Tallinna Polütehnikum</p>
+
+                                    <table style="width: 80%">
+                                        <tr>
+                                            <td><label class="label extrapadding">Aadress</label></td>
+                                            <td><label class="label extrapadding">Postiindeks</label></td>
+                                            <td><label class="label extrapadding">Linn</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>Pärnu mnt 57</p>
+                                            </td>
+                                            <td>
+                                                <p>10135</p>
+                                            </td>
+                                            <td>
+                                                <p>Tallinn</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <label class="label extrapadding">Registrikood</label>
+                                    <p>70003974</p>
+
+                                    <label class="label extrapadding">Telefoninumber</label>
+                                    <p>610 3601</p>
+
+                                    <br><br><br><label class="label extrapadding">Koolipoolne lepingu allkirjastaja ees-
+                                    ja perekonnanimi</label>
+                                    <p>Lembit Kukk</p>
+
+                                    <label class="label extrapadding">Allkirjastaja amet</label>
+                                    <p>Praktikajuht</p>
+                                </div>
+                            </div>
+
+                            <div id="Edit_School_Data" class="white-circle-container is-hidden">
+                                <div class="basic-padding">
+                                    <label class="label extrapadding">Kooli nimi</label>
+                                    <input name="school_name" class="input" placeholder="Tallinna Polütehnikum" value="Tallinna Polütehnikum">
+
+                                    <table>
+                                        <tr>
+                                            <td><label class="label extrapadding">Aadress</label></td>
+                                            <td><label class="label extrapadding">Postiindeks</label></td>
+                                            <td><label class="label extrapadding">Linn</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input name="school_address" class="input" type="text"
+                                                       placeholder="Pärnu mnt 57" value="Pärnu mnt 57">
+                                            </td>
+                                            <td>
+                                                <input name="school_zip" class="input" type="text" placeholder="10135"
+                                                       value="10135">
+                                            </td>
+                                            <td>
+                                                <input name="school_city" class="input" type="text" placeholder="Tallinn"
+                                                       value="Tallinn">
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <label class="label extrapadding">Registrikood</label>
+                                    <input name="school_reg_code" class="input" type="text" placeholder="70003974"
+                                           value="70003974">
+
+                                    <label class="label extrapadding">Telefoninumber</label>
+                                    <input name="school_phone_number" class="input" type="text" placeholder="610 3601"
+                                           value="610 3601">
+
+                                    <br><br><br><label class="label extrapadding">Koolipoolne lepingu allkirjastaja ees- ja perekonnanimi</label>
+                                    <input name="school_rep_name" class="input" type="text" placeholder="Lembit Kukk"
+                                           value="Lembit Kukk">
+
+                                    <label class="label extrapadding">Allkirjastaja amet</label>
+                                    <input name="school_rep_position" class="input" type="text" placeholder="Praktikajuht" value="Praktikajuht">
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div id="Submit Data">
+                            <input type="submit" class="button tpt_dark_button" value="Sisesta andmed"
+                                   style="margin: 10px">
+                            <label class="label extrapadding" id="validation_info" style="font-size: 25px"></label>
+                        </div>
+
+                        <div class="modal" id="download_confirmation_modal">
+
+                            <div class="modal-background"></div>
+
+                            <div class="modal-card">
+
+                                <header class="modal-card-head">
+                                    <p class="modal-card-title">Kas olete kindel?</p>
+                                    <button class="delete" aria-label="close" onclick="ConfirmationCancel()"></button>
+                                </header>
+
+                                <section class="modal-card-body">
+                                    <p>Kui leping on valmis ja te ei soovi midagi muuta, vajutage "Jah" nupule.</p>
+                                </section>
+
+                                <footer class="modal-card-foot">
+                                    <button class="button is-success" onclick="Download()">Jah</button>
+                                    <button class="button is-danger" onclick="ConfirmationCancel()">Tühista</button>
+                                </footer>
+
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+
+                </form>
+
+                <div id="RefreshAndDownload">
+                    <table>
+                        <tr>
+                            <button id="RefreshButton" class="button tpt_dark_button" onclick="Refresh()" style="margin: 10px" disabled>Genereeri leping</button>
+                        </tr>
+                        <tr>
+                            <button id="DownloadButton" class="button tpt_dark_button" onclick="ConfirmationStart()" style="margin: 10px" disabled>Lae alla</button>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- THE PREVIEW COLUMN -->
+            <div class="column has-background-grey-lighter" style="border-style: solid; width: 5000px; height: 1050px">
+                <label id="GenerateInstructions" class="label extrapadding"
+                       style="font-size: 30px; text-align: center; padding-top: 300px">
+                    Lepingu eelvaate nägemiseks täida väljad, vajuta nuppu "Sisesta andmed" ja genereeri leping.
+                </label>
+                <iframe id="iframe" style="visibility: hidden" width="100%" height="1000px" src="../exports/finalizedContract.pdf"></iframe>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+</body>
+
+<footer style="background-color: #5987c5"></footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+
+    if(Test == true) {
+        $("#TestDataButton").removeClass("is-hidden");
+    }
+
+    $("#ContractForm").submit(function (event) {
+        event.preventDefault(); //prevent default action
+        var post_url = $(this).attr("action"); //get form action url
+        var request_method = $(this).attr("method"); //get form GET/POST method
+        var form_data = $(this).serialize(); //Encode form elements for submission
+
+        $.ajax({
+            url: post_url,
+            type: request_method,
+            data: form_data
+        }).done(function (response) { //
+            $("#server-results").html(response);
+        });
+    });
+
+    function SwitchToStudent() {
+        removeActive();
+        hideAll();
+        $("#StudentTab").addClass("is-active");
+        $("#StudentTab_Content").removeClass("is-hidden");
+    }
+
+    function SwitchToContract() {
+        removeActive();
+        hideAll();
+        $("#ContractTab").addClass("is-active");
+        $("#ContractTab_Content").removeClass("is-hidden");
+    }
+
+    function SwitchToCompany() {
+        removeActive();
+        hideAll();
+        $("#CompanyTab").addClass("is-active");
+        $("#CompanyTab_Content").removeClass("is-hidden");
+    }
+
+    function SwitchToSchool() {
+        removeActive();
+        hideAll();
+        $("#SchoolTab").addClass("is-active");
+        $("#SchoolTab_Content").removeClass("is-hidden");
+    }
+
+    function removeActive() {
+        $("li").each(function () {
+            $(this).removeClass("is-active");
+        });
+    }
+
+    function hideAll() {
+        $("#StudentTab_Content").addClass("is-hidden");
+        $("#ContractTab_Content").addClass("is-hidden");
+        $("#CompanyTab_Content").addClass("is-hidden");
+        $("#SchoolTab_Content").addClass("is-hidden");
+    }
+
+    function Refresh() {
+        console.log("Reloaded.")
+        document.getElementById('iframe').style.visibility = "visible"
+        document.getElementById('iframe').contentWindow.location.reload();
+
+        $("#GenerateInstructions").addClass("is-hidden");
+    }
+
+    // ADDITIONAL FIELDS
+    function EditSchoolData() {
+        var Checkbox = document.getElementById("edit_school_data_checkbox");
+        if (Checkbox.checked == true) {
+            $("#View_School_Data").addClass("is-hidden");
+            $("#Edit_School_Data").removeClass("is-hidden");
+        } else {
+            $("#Edit_School_Data").addClass("is-hidden");
+            $("#View_School_Data").removeClass("is-hidden");
+        }
+    }
+
+    function EditCompanyRep() {
+        var Checkbox = document.getElementById("edit_company_contact_checkbox");
+        if (Checkbox.checked == true) {
+            $("#CompanyContactFields").removeClass("is-hidden");
+        } else {
+            $("#CompanyContactFields").addClass("is-hidden");
+        }
+
+    }
+
+    // DOWNLOAD FILES
+    function ConfirmationStart() {
+        $("#download_confirmation_modal").addClass("is-active");
+    }
+
+    function ConfirmationCancel() {
+        $("#download_confirmation_modal").removeClass("is-active");
+    }
+
+    function Download() {
+        window.location = "/DownloadContract";
+
+        $("#validation_info").text("The Contract has been successfully downloaded.");
+        $("#download_confirmation_modal").removeClass("is-active");
+        $('#ContractForm')[0].reset();
+
+        $("#RefreshButton").attr("disabled", true);
+        $("#DownloadButton").attr("disabled", true);
+    }
+
+    // VALIDATION
+    function ValidInputs() {
+        $("#validation_info").text("Andmed on sisestatud.");
+        $("#validation_info").addClass("has-text-success");
+
+        $("#RefreshButton").attr("disabled", false);
+        $("#DownloadButton").attr("disabled", false);
+    }
+
+    // TESTING
+    function GenerateTestData() {
+
+        // Student Data
+        $("#S_Name").val("Karl-Markus Eduard Aadamson");
+        $("#S_Phone").val("693 5555")
+        $("#S_Group").val("TA-17E")
+        $("#S_Course").val("Noorem tarkvaraarendaja")
+
+        $("#S_Address").val("Rahukohtu 3")
+        $("#S_Zip").val("15161")
+        $("#S_City").val("Tallinn")
+
+        // Contract Data
+        $("#C_Number").val("18")
+        $("#C_StartD").val("2020-01-01")
+        $("#C_EndD").val("2020-12-24")
+        $("#C_DurationWeeks").val("24,7")
+        $("#C_DurationHours").val("998")
+
+        // Company Data
+        $("#Co_Name").val("Telia AS")
+
+        $("#Co_Address").val("Mustamäe tee 3")
+        $("#Co_Zip").val("15033 ")
+        $("#Co_City").val("Tallinn")
+
+        $("#Co_RegCode").val("10234957")
+        $("#Co_Phone").val("655 9188")
+
+        $("#Co_RepName").val("Üllar Jörberg")
+        $("#Co_RepPos").val("Grupijuht")
+
+        $("#edit_company_contact_checkbox").prop('checked', true)
+        EditCompanyRep();
+
+        $("#Co_ConName").val("Alfred Aadalbert")
+        $("#Co_ConPos").val("Konsultant")
+        $("#Co_ConPhone").val("659 7905")
+        $("#Co_ConEmail").val("AlfredAadal@gmail.com")
+
+        // School Data
+        $("#Sc_RepName").val("Hannes Leinberg")
+        $("#Sc_RepPos").val("Õpetaja")
+        $("#Sc_RepPhone").val("659 7905")
+
+    }
+
+</script>
+
+</html>
+
