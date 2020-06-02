@@ -64,6 +64,18 @@
             color: #666666;
         }
 
+        button:disabled:hover {
+            color:black;
+        }
+
+        .button:hover {
+            color: white;
+        }
+
+        .button:focus {
+            color: white;
+        }
+
         .Instructions_Title{
             font-size: 30px;
         }
@@ -115,6 +127,10 @@
             color:black;
         }
 
+        .button-focus-color a{
+            color: white;
+        }
+
     </style>
 
     <script>
@@ -123,7 +139,7 @@
 
 </head>
 
-<body class="tpt_light_background">
+<body id="main_body" class="tpt_light_background">
 <nav class="navbar" role="navigation" aria-label extrapadding="main navigation" style=" padding: 5px; border-style: solid">
     <div class="navbar-brand">
         <div class="card-content" style="justify-content: center">
@@ -135,7 +151,10 @@
         </div>
     </div>
     <div class="navbar-start" style="margin-left: 50px">
-        <a class="navbar-item" style="font-size: 20px" onclick="SwitchToInstructions()">
+        <a class="navbar-item" style="font-size: 20px; margin-top: 30px" onclick="GenerateNewContract()">
+            Genereeri uus leping
+        </a>
+        <a class="navbar-item" style="font-size: 20px; margin-top: 30px" onclick="SwitchToInstructions()">
             Kasutusjuhend
         </a>
     </div>
@@ -143,7 +162,7 @@
         <div style="text-align: center; padding-top: 25px; padding-right: 10px">
             <label class="title" style="font-size: 20px; font-style: italic">Matthias Linder TA-17E</label><br>
             <label class="title" style="font-size: 15px">Lõputöö</label><br>
-            <button id="TestDataButton" class="button is-hidden" onclick="GenerateTestData()">Test Data</button>
+            <button id="TestDataButton" class="button is-hidden" style="background-color: cornflowerblue" onclick="GenerateTestData()">Test Data</button>
         </div>
     </div>
 </nav>
@@ -186,18 +205,37 @@
 
                 <div class="is-hidden" id="Instructions_Page">
                     <div class="basic-padding white-circle-container">
-                        <label class="Instructions_Title">Kasutusjuhend:</label><br><br>
+                        <label class="Instructions_Title"><b>Kasutusjuhend:</b></label><br><br>
 
                         <label class="Instructions_Text">
-                            1. Navigeeri rakenduses juhendi kohal olevate nuppudega. <br><br>
-                            2. Täida igal lehel andmed ära, vajuta "Sisesta Andmed" ja liigu edasi järgmisele lehele.<br><br>
-                            3. Kui igal lehel on andmed ära täidetud, siis oota paar sekundit kuni "Genereeri leping" nupp muutub aktiivseks.<br><br>
-                            4. Vajuta nupule "Genereeri leping". Kui leping ei tule nähtavale siis proovi paar korda uuesti.<br><br>
-                            5. Kui leping on nähtaval ja sa oled sellega rahul, siis vajuta nupule "Lae alla".<br><br>
-                            6. Nupule vajutamisel tekib ekraanile aken, mis soovib kinnitust. Kui oled kindel, et soovid lepingu alla laadida,
-                            siis vajuta nupule "Jah", kui te ei soovi lepingut veel alla laadida siis vajuta kas "Tühista" nupule või pane väike
-                            aken ülevalt X nupust kinni.<br><br>
-                            7. Kui vastasite "Jah", siis laeb brauser lepingu arvutisse alla.
+
+                            1. <b>Navigeeri vahelehtedel:</b> "Õpilane", "Leping", "Ettevõte", "Kool".<br><br>
+
+                            2. <b>Sisesta aktiivsel vahelehel andmed.</b> Seejärel vajuta nuppu "Sisesta andmed" ja liigu edasi
+                            järgmisele vahelehele.<br><br>
+
+                            3. <b>Kui kõik andmed on sisestatud, oota viimasel vahelehel paar sekundit (~ 4 sek) kuni
+                            "Genereeri leping" nupp muutub aktiivseks.</b> Vahelehtede täitmise järjekord ei ole oluline,
+                            lepingut saad genereerida mistahes vahelehel, mille täidad viimasena.<br><br>
+
+                            4. <b>Lepingu eelvaate nägemiseks vajuta nupule "Genereeri leping".</b> *<br><br>
+
+                            5. <b>Kontrolli lepingu eelvaates sisestatud andmed.</b> Kui andmed on korrektsed, vajuta nupule
+                            "Lae alla".<br><br>
+
+                            6. <b>"Lae alla" nupu vajutamisel küsitakse kinnitust, kas leping on alla laadimiseks valmis.</b>
+                            Kui oled kindel, et soovid lepingu alla laadida, vajuta nupule "Jah". Kui soovid lepingut
+                            muuta, vajuta "Tühista" nupule või sulge X nupust.<br><br>
+
+                            7. <b>Kui vastasid "Jah", laeb brauser lepingu arvutisse.</b> Kui tühistasid lepingu alla laadimise,
+                            saad minna tagasi andmevälju täiendama.<br><br>
+
+                        </label>
+
+                        <label style="font-size: 14px; font-style: italic">
+                            * Esmakordsel lepingu genereerimisel võib lepingu genereerimine võtta tavapärasest rohkem
+                            aega. Juhul, kui tekib viga või lepingut ei kuvata, oota veidi ja vajuta "Genereeri leping"
+                            nuppu uuesti.
                         </label>
                     </div>
                 </div>
@@ -520,12 +558,18 @@
             </div>
 
             <!-- THE PREVIEW COLUMN -->
-            <div class="column is-half has-background-grey-lighter" style="border-style: solid">
-                <label id="GenerateInstructions" class="label extrapadding"
-                       style="font-size: 30px; text-align: center; padding-top: 300px">
-                    Lepingu eelvaate nägemiseks täida väljad, vajuta nuppu "Sisesta andmed" ja genereeri leping.
-                </label>
-                <iframe id="iframe" style="visibility: hidden" width="100%" height="1000px" src="../exports/finalizedContract.pdf"></iframe>
+            <div class="column is-half">
+                <div class="has-background-grey-lighter" style="border-style: solid">
+                    <label id="GenerateInstructions" class="label" style="font-size: 25px; text-align: center;
+                           padding-top: 300px; padding-left: 15px; padding-right: 15px">
+
+                        Lepingu eelvaate nägemiseks täida väljad, vajuta nuppu "Sisesta andmed" ja liigu järgmisele
+                        vahelehele. Peale kõigi andmete sisestamist, vajuta viimasena täidetud vahelehel nupule "Genereeri
+                        leping". Seejärel näed lepingu eelvaadet.
+
+                    </label>
+                    <iframe id="iframe" style="visibility: hidden" width="100%" height="500px" src="../exports/finalizedContract.pdf"></iframe>
+                </div>
             </div>
 
         </div>
@@ -562,6 +606,10 @@
             $("#server-results").html(response);
         });
     });
+
+    function GenerateNewContract() {
+        window.location.reload();
+    }
 
     function SwitchToInstructions() {
         removeActive();
@@ -630,6 +678,7 @@
     function Refresh() {
         console.log("Reloaded.")
         document.getElementById('iframe').style.visibility = "visible"
+        document.getElementById('iframe').style.height = "1000px";
         document.getElementById('iframe').contentWindow.location.reload();
 
         $("#GenerateInstructions").addClass("is-hidden");
@@ -680,6 +729,10 @@
         ContractTab_Done = false;
         CompanyTab_Done = false;
         SchoolTab_Done = false;
+
+        document.getElementById('iframe').style.visibility = "hidden"
+        document.getElementById('iframe').style.height = "500px";
+        $("#GenerateInstructions").removeClass("is-hidden");
 
         setTimeout(function () {
             $("#validation_info").text("");
