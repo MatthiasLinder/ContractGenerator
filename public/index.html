@@ -134,7 +134,7 @@
     </style>
 
     <script>
-        var Test = true;
+        var Test = false;
     </script>
 
 </head>
@@ -205,30 +205,34 @@
 
                 <div class="is-hidden" id="Instructions_Page">
                     <div class="basic-padding white-circle-container">
-                        <label class="Instructions_Title"><b>Kasutusjuhend:</b></label><br><br>
 
-                        <label class="Instructions_Text">
+                        <h1 class="title" style="padding-top: 18px">Kasutusjuhend</h1>
 
-                            1. <b>Navigeeri vahelehtedel:</b> "Õpilane", "Leping", "Ettevõte", "Kool".<br><br>
+                        <label class="Title">
 
-                            2. <b>Sisesta aktiivsel vahelehel andmed.</b> Seejärel vajuta nuppu "Sisesta andmed" ja liigu edasi
+                            1. Navigeeri vahelehtedel: "Õpilane", "Leping", "Ettevõte", "Kool".<br><br>
+
+                            2. Sisesta aktiivsel vahelehel andmed. Seejärel vajuta nuppu "Sisesta andmed" ja liigu edasi
                             järgmisele vahelehele.<br><br>
 
-                            3. <b>Kui kõik andmed on sisestatud, oota viimasel vahelehel paar sekundit (~ 4 sek) kuni
-                            "Genereeri leping" nupp muutub aktiivseks.</b> Vahelehtede täitmise järjekord ei ole oluline,
+                            3. Kui kõik andmed on sisestatud, oota viimasel vahelehel paar sekundit (~ 4 sek) kuni
+                            "Genereeri leping" nupp muutub aktiivseks. Vahelehtede täitmise järjekord ei ole oluline,
                             lepingut saad genereerida mistahes vahelehel, mille täidad viimasena.<br><br>
 
-                            4. <b>Lepingu eelvaate nägemiseks vajuta nupule "Genereeri leping".</b> *<br><br>
+                            4. Lepingu eelvaate nägemiseks vajuta nupule "Genereeri leping". *<br><br>
 
-                            5. <b>Kontrolli lepingu eelvaates sisestatud andmed.</b> Kui andmed on korrektsed, vajuta nupule
+                            5. Kontrolli lepingu eelvaates sisestatud andmed. Kui andmed on korrektsed, vajuta nupule
                             "Lae alla".<br><br>
 
-                            6. <b>"Lae alla" nupu vajutamisel küsitakse kinnitust, kas leping on alla laadimiseks valmis.</b>
+                            6. "Lae alla" nupu vajutamisel küsitakse kinnitust, kas leping on alla laadimiseks valmis.
                             Kui oled kindel, et soovid lepingu alla laadida, vajuta nupule "Jah". Kui soovid lepingut
-                            muuta, vajuta "Tühista" nupule või sulge X nupust.<br><br>
+                            muuta, vajuta "Tühista" või sulge X nupust.<br><br>
 
-                            7. <b>Kui vastasid "Jah", laeb brauser lepingu arvutisse.</b> Kui tühistasid lepingu alla laadimise,
+                            7. Kui vastasid "Jah", laeb brauser lepingu arvutisse. Kui tühistasid lepingu alla laadimise,
                             saad minna tagasi andmevälju täiendama.<br><br>
+
+                            8. Peale lepingu alla laadimist, kaovad vahelehtedelt sisestatud andmed. Uue lepingu
+                            sisestamiseks vajuta lehe päises nuppu "Genereeri uus leping".<br><br>
 
                         </label>
 
@@ -527,12 +531,12 @@
                     <div class="modal-card">
 
                         <header class="modal-card-head">
-                            <p class="modal-card-title">Kas olete kindel?</p>
+                            <p class="modal-card-title">Kas oled kindel?</p>
                             <button class="delete" aria-label="close" onclick="ConfirmationCancel()"></button>
                         </header>
 
                         <section class="modal-card-body">
-                            <p>Kui leping on valmis ja te ei soovi midagi muuta, vajutage "Jah" nupule.</p>
+                            <p>Kui leping on valmis ja sa ei soovi midagi muuta, vajuta "Jah" nupule.</p>
                         </section>
 
                         <footer class="modal-card-foot">
@@ -564,7 +568,7 @@
                            padding-top: 300px; padding-left: 15px; padding-right: 15px">
 
                         Lepingu eelvaate nägemiseks täida väljad, vajuta nuppu "Sisesta andmed" ja liigu järgmisele
-                        vahelehele. Peale kõigi andmete sisestamist, vajuta viimasena täidetud vahelehel nupule "Genereeri
+                        vahelehele. Peale kõigi andmete sisestamist, vajuta viimasena täidetud vahelehel nuppu "Genereeri
                         leping". Seejärel näed lepingu eelvaadet.
 
                     </label>
