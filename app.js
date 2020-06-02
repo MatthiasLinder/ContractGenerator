@@ -75,34 +75,12 @@ var School_ContactEmail;
 var Initialize_Date = new Date();
 var FINDDATE = Initialize_Date.getMonth();
 
-const months_1 = [
-    'jaanuar',
-    'veebruar',
-    'märts',
-    'aprill',
-    'mai',
-    'juuni',
-    'juuli',
-    'august',
-    'september',
-    'oktoober',
-    'november',
-    'detsember',
+const months_1 = ['jaanuar', 'veebruar', 'märts', 'aprill', 'mai', 'juuni', 'juuli',
+    'august', 'september', 'oktoober', 'november', 'detsember',
 ];
 
-const months_2 = [
-    'jaanuaril',
-    'veebruaril',
-    'märtsil',
-    'aprillil ',
-    'mail',
-    'juunil',
-    'juulil',
-    'augustil',
-    'septembril',
-    'oktoobril',
-    'novembril',
-    'detsembril',
+const months_2 = ['jaanuaril', 'veebruaril', 'märtsil', 'aprillil ', 'mail', 'juunil',
+    'juulil', 'augustil', 'septembril', 'oktoobril', 'novembril', 'detsembril',
 ];
 
 var CurrentMonth = months_1[FINDDATE];

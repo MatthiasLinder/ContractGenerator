@@ -44,13 +44,28 @@
             padding-top: 25px;
         }
 
+        .button_margin {
+            margin: 10px;
+        }
+
         input:invalid {
             border-color: red;
             border-width: 2px;
         }
 
+        input:valid {
+            border-color: green;
+            border-width: 2px;
+        }
+
         input:-webkit-autofill {
             -webkit-box-shadow: 0 0 0 1000px white inset;
+        }
+
+        button:disabled, button[disabled] {
+            border: 1px solid #999999;
+            background-color: #cccccc;
+            color: #666666;
         }
 
     </style>
@@ -93,30 +108,32 @@
                 <!-- Tab Bar -->
                 <div id="TabBar" class="tabs is-centered is-boxed is-toggle-rounded is-fullwidth tpt_dark_TabBar" style="font-size: 20px">
                     <li id="StudentTab" class="is-active" style="padding: 5px">
-                        <a onclick="SwitchToStudent()">
+                        <a onclick="SwitchToStudent(); AddRequire_Student(); ClearValidationMessage()">
                             <span class="blue-text">Õpilane</span>
                         </a>
                     </li>
 
                     <li id="ContractTab" style="padding: 5px">
-                        <a onclick="SwitchToContract()">
+                        <a onclick="SwitchToContract(); AddRequire_Contract(); ClearValidationMessage()">
                             <span class="blue-text">Leping</span>
                         </a>
 
                     </li>
 
                     <li id="CompanyTab" style="padding: 5px">
-                        <a onclick="SwitchToCompany()">
+                        <a onclick="SwitchToCompany(); AddRequire_Company(); ClearValidationMessage()">
                             <span class="blue-text">Ettevõte</span>
                         </a>
                     </li>
 
                     <li id="SchoolTab" style="padding: 5px">
-                        <a onclick="SwitchToSchool()">
+                        <a onclick="SwitchToSchool(); AddRequire_School(); ClearValidationMessage()">
                             <span class="blue-text">Kool</span>
                         </a>
                     </li>
                 </div>
+
+                <label class="label"></label>
 
                 <form id="ContractForm" action="/SubmitData" method="post" onsubmit="ValidInputs()" autocomplete="off">
 
@@ -164,7 +181,7 @@
                         <div class="is-hidden" id="ContractTab_Content">
                             <div class="basic-padding white-circle-container">
                                 <label class="label extrapadding">Lepingu number</label>
-                                <input name="contract_number" class="input" type="text" placeholder="18" id="C_Number" required>
+                                <input name="contract_number" class="input" type="text" placeholder="18" id="C_Number">
 
                                 <table>
                                     <tr>
@@ -172,8 +189,8 @@
                                         <td><label class="label extrapadding">Praktika lõpp</label></td>
                                     </tr>
                                     <tr>
-                                        <td><input name="practice_date_start" class="input" type="date" placeholder="05/12/2001" id="C_StartD" required></td>
-                                        <td><input name="practice_date_end" class="input" type="date" placeholder="09/11/2001" id="C_EndD" required></td>
+                                        <td><input name="practice_date_start" class="input" type="date" placeholder="05/12/2001" id="C_StartD"></td>
+                                        <td><input name="practice_date_end" class="input" type="date" placeholder="09/11/2001" id="C_EndD"></td>
                                     </tr>
 
                                 </table>
@@ -182,7 +199,7 @@
                                     <tr>
                                         <td>
                                             <label class="label extrapadding">Lepingu kestus nädalates</label>
-                                            <input name="duration_weeks" class="input" type="text" placeholder="24,7" id="C_DurationWeeks" required>
+                                            <input name="duration_weeks" class="input" type="text" placeholder="24,7" id="C_DurationWeeks">
                                         </td>
                                         <td>
                                             <label class="label" style="padding-top: 65px; padding-left: 15px; font-style: italic"> Nädalat</label>
@@ -191,7 +208,7 @@
                                     <tr>
                                         <td>
                                             <label class="label extrapadding">Lepingu kestus tundides</label>
-                                            <input name="duration_hours" class="input" type="text" placeholder="998" id="C_DurationHours" required>
+                                            <input name="duration_hours" class="input" type="text" placeholder="998" id="C_DurationHours">
                                         </td>
                                         <td>
                                             <label class="label" style="padding-top: 65px; padding-left: 15px; font-style: italic"> Tundi</label>
@@ -210,7 +227,7 @@
                             <div class="white-circle-container">
                                 <div class="basic-padding">
                                     <label class="label extrapadding">Nimi</label>
-                                    <input name="company_name" class="input" type="text" placeholder="Telia AS" id="Co_Name" required>
+                                    <input name="company_name" class="input" type="text" placeholder="Telia AS" id="Co_Name">
 
                                     <table>
                                         <tr>
@@ -220,28 +237,28 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input name="company_address" class="input" type="text" placeholder="Aadress" id="Co_Address" required>
+                                                <input name="company_address" class="input" type="text" placeholder="Aadress" id="Co_Address">
                                             </td>
                                             <td>
-                                                <input name="company_zipcode" class="input" type="text" placeholder="Zip Kood" id="Co_Zip" required>
+                                                <input name="company_zipcode" class="input" type="text" placeholder="Zip Kood" id="Co_Zip">
                                             </td>
                                             <td>
-                                                <input name="company_city" class="input" type="text" placeholder="Linn" id="Co_City" required>
+                                                <input name="company_city" class="input" type="text" placeholder="Linn" id="Co_City">
                                             </td>
                                         </tr>
                                     </table>
 
                                     <label class="label extrapadding">Registrikood</label>
-                                    <input name="company_reg_code" class="input" type="text" placeholder="10234957" id="Co_RegCode" required>
+                                    <input name="company_reg_code" class="input" type="text" placeholder="10234957" id="Co_RegCode">
 
                                     <label class="label extrapadding">Telefoninumber</label>
-                                    <input name="company_phone_number" class="input" type="text" placeholder="655 9188" id="Co_Phone" required>
+                                    <input name="company_phone_number" class="input" type="text" placeholder="655 9188" id="Co_Phone">
 
                                     <br><br><br><label class="label extrapadding">Esindaja ees- ja perekonnanimi</label>
-                                    <input name="company_rep_name" class="input" type="text" placeholder="Jane Doe" id="Co_RepName" required>
+                                    <input name="company_rep_name" class="input" type="text" placeholder="Jane Doe" id="Co_RepName">
 
                                     <label class="label extrapadding">Esindaja amet</label>
-                                    <input name="company_rep_position" class="input" type="text" placeholder="Sekretär" id="Co_RepPos" required>
+                                    <input name="company_rep_position" class="input" type="text" placeholder="Sekretär" id="Co_RepPos">
 
                                 </div>
                             </div>
@@ -274,17 +291,17 @@
                         <!-- SCHOOL TAB -->
                         <div class="is-hidden" id="SchoolTab_Content">
 
-                            <div id="SchoolContactFields" style="border-radius: 25px; border-style: solid; background-color: white">
+                            <div id="SchoolContactFields" class="white-circle-container">
                                 <label class="label" style="font-size: 20px; padding: 10px">Koolipoolne praktika korraldaja</label>
                                 <div style="padding: 10px">
                                     <label class="label">Ees- ja perekonnanimi</label>
-                                    <input name="school_contact_name" class="input" type="text" placeholder="Taigo Hemmel" id="Sc_RepName" required>
+                                    <input name="school_contact_name" class="input" type="text" placeholder="Taigo Hemmel" id="Sc_RepName">
 
                                     <label class="label extrapadding">Amet</label>
-                                    <input name="school_contact_position" class="input" type="text" placeholder="Õpetaja" id="Sc_RepPos" required>
+                                    <input name="school_contact_position" class="input" type="text" placeholder="Õpetaja" id="Sc_RepPos">
 
                                     <label class="label extrapadding">Telefoninumber</label>
-                                    <input name="school_contact_phone" class="input" type="text" placeholder="659 7905" id="Sc_RepPhone" required>
+                                    <input name="school_contact_phone" class="input" type="text" placeholder="659 7905" id="Sc_RepPhone">
 
                                     <label class="label extrapadding">E-posti aadress (võib tühjaks jätta)</label>
                                     <input name="school_contact_email" class="input" type="text" placeholder="JohnDoe@gmail.com">
@@ -386,46 +403,46 @@
                         </div>
 
                         <div id="Submit Data">
-                            <input type="submit" class="button tpt_dark_button" value="Sisesta andmed"
-                                   style="margin: 10px">
+                            <button type="submit" class="button tpt_dark_button button_margin">Sisesta andmed</button>
                             <label class="label extrapadding" id="validation_info" style="font-size: 25px"></label>
                         </div>
 
-                        <div class="modal" id="download_confirmation_modal">
 
-                            <div class="modal-background"></div>
-
-                            <div class="modal-card">
-
-                                <header class="modal-card-head">
-                                    <p class="modal-card-title">Kas olete kindel?</p>
-                                    <button class="delete" aria-label="close" onclick="ConfirmationCancel()"></button>
-                                </header>
-
-                                <section class="modal-card-body">
-                                    <p>Kui leping on valmis ja te ei soovi midagi muuta, vajutage "Jah" nupule.</p>
-                                </section>
-
-                                <footer class="modal-card-foot">
-                                    <button class="button is-success" onclick="Download()">Jah</button>
-                                    <button class="button is-danger" onclick="ConfirmationCancel()">Tühista</button>
-                                </footer>
-
-                            </div>
-
-                        </div>
 
                     </fieldset>
 
                 </form>
 
+                <div class="modal" id="download_confirmation_modal">
+
+                    <div class="modal-background"></div>
+
+                    <div class="modal-card">
+
+                        <header class="modal-card-head">
+                            <p class="modal-card-title">Kas olete kindel?</p>
+                            <button class="delete" aria-label="close" onclick="ConfirmationCancel()"></button>
+                        </header>
+
+                        <section class="modal-card-body">
+                            <p>Kui leping on valmis ja te ei soovi midagi muuta, vajutage "Jah" nupule.</p>
+                        </section>
+
+                        <footer class="modal-card-foot">
+                            <button class="button is-success" onclick="Download()">Jah</button>
+                            <button class="button is-danger" onclick="ConfirmationCancel()">Tühista</button>
+                        </footer>
+
+                    </div>
+
+                </div>
                 <div id="RefreshAndDownload">
                     <table>
                         <tr>
-                            <button id="RefreshButton" class="button tpt_dark_button" onclick="Refresh()" style="margin: 10px" disabled>Genereeri leping</button>
+                            <button id="RefreshButton" class="button tpt_dark_button button_margin" onclick="Refresh()" disabled>Genereeri leping</button>
                         </tr>
                         <tr>
-                            <button id="DownloadButton" class="button tpt_dark_button" onclick="ConfirmationStart()" style="margin: 10px" disabled>Lae alla</button>
+                            <button id="DownloadButton" class="button tpt_dark_button button_margin" onclick="ConfirmationStart()" disabled>Lae alla</button>
                         </tr>
                     </table>
                 </div>
@@ -451,6 +468,11 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
+
+    var StudentTab_Done = false;
+    var ContractTab_Done = false;
+    var CompanyTab_Done = false;
+    var SchoolTab_Done = false;
 
     if(Test == true) {
         $("#TestDataButton").removeClass("is-hidden");
@@ -554,21 +576,109 @@
     function Download() {
         window.location = "/DownloadContract";
 
-        $("#validation_info").text("The Contract has been successfully downloaded.");
+        $("#validation_info").text("Leping on edukalt alla laetud.");
         $("#download_confirmation_modal").removeClass("is-active");
         $('#ContractForm')[0].reset();
 
         $("#RefreshButton").attr("disabled", true);
         $("#DownloadButton").attr("disabled", true);
+
+        StudentTab_Done = false;
+        ContractTab_Done = false;
+        CompanyTab_Done = false;
+        SchoolTab_Done = false;
+
+        setTimeout(function () {
+            $("#validation_info").text("");
+        }, 4000);
     }
 
     // VALIDATION
     function ValidInputs() {
-        $("#validation_info").text("Andmed on sisestatud.");
+
         $("#validation_info").addClass("has-text-success");
 
-        $("#RefreshButton").attr("disabled", false);
-        $("#DownloadButton").attr("disabled", false);
+        if($('#StudentTab').hasClass("is-active")){
+            StudentTab_Done = true;
+            $("#validation_info").text("Andmed on sisestatud. Liikuge järgmisele vahelehele.");
+        }
+        if($('#ContractTab').hasClass("is-active")){
+            ContractTab_Done = true;
+            $("#validation_info").text("Andmed on sisestatud. Liikuge järgmisele vahelehele.");
+        }
+        if($('#CompanyTab').hasClass("is-active")){
+            CompanyTab_Done = true;
+            $("#validation_info").text("Andmed on sisestatud. Liikuge järgmisele vahelehele.");
+        }
+        if($('#SchoolTab').hasClass("is-active")){
+            SchoolTab_Done = true;
+            $("#validation_info").text("Andmed on sisestatud. Liikuge järgmisele vahelehele.");
+        }
+        if(StudentTab_Done == true, ContractTab_Done == true, CompanyTab_Done == true, SchoolTab_Done == true)
+        {
+            $("#validation_info").text("Kõik andmed on sisestatud. Lepingut saab genereerida.");
+            setTimeout(function () {
+                $("#RefreshButton").attr("disabled", false);
+            }, 4000);
+            $("#DownloadButton").attr("disabled", false);
+        }
+    }
+
+    function ClearValidationMessage() {
+        $("#validation_info").text("");
+    }
+
+    function AddRequire_Student() {
+        RemoveRequired()
+
+        $("#S_Name").attr("required", true);
+        $("#S_Phone").attr("required", true);
+        $("#S_Group").attr("required", true);
+        $("#S_Course").attr("required", true);
+
+        $("#S_Address").attr("required", true);
+        $("#S_Zip").attr("required", true);
+        $("#S_City").attr("required", true);
+    }
+
+    function AddRequire_Contract() {
+        RemoveRequired()
+
+        $("#C_Number").attr("required", true);
+        $("#C_StartD").attr("required", true);
+        $("#C_EndD").attr("required", true);
+        $("#C_DurationWeeks").attr("required", true);
+        $("#C_DurationHours").attr("required", true);
+    }
+
+    function AddRequire_Company() {
+        RemoveRequired()
+
+        $("#Co_Name").attr("required", true);
+
+        $("#Co_Address").attr("required", true);
+        $("#Co_Zip").attr("required", true);
+        $("#Co_City").attr("required", true);
+
+        $("#Co_RegCode").attr("required", true);
+        $("#Co_Phone").attr("required", true);
+
+        $("#Co_RepName").attr("required", true);
+        $("#Co_RepPos").attr("required", true);
+    }
+
+    function AddRequire_School() {
+        RemoveRequired()
+
+        $("#Sc_RepName").attr("required", true);
+        $("#Sc_RepPos").attr("required", true);
+        $("#Sc_RepPhone").attr("required", true);
+    }
+
+    function RemoveRequired() {
+        $("input").each(function () {
+            $(this).attr("required", false);
+        });
     }
 
     // TESTING
@@ -617,7 +727,13 @@
         $("#Sc_RepPos").val("Õpetaja")
         $("#Sc_RepPhone").val("659 7905")
 
+        StudentTab_Done = true;
+        ContractTab_Done = true;
+        CompanyTab_Done = true;
+        SchoolTab_Done = true;
     }
+
+
 
 </script>
 
