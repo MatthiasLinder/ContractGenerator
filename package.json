@@ -12,7 +12,7 @@
     "@nativedocuments/docx-wasm": "^2.2.13-1561490777",
     "body-parser": "^1.19.0",
     "bulma": "^0.8.2",
-    "docxtemplater": "^3.17.6",
+    "docxtemplater": "^3.31.4",
     "express": "^4.17.1",
     "jquery": "^3.5.1",
     "libreoffice-convert": "^1.0.5",
